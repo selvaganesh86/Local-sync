@@ -1,0 +1,56 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinSight Intelligence</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-2xl mx-auto">
+            <!-- Logo and Title -->
+            <div class="flex items-center justify-center mb-8">
+                <img 
+                    src="https://logowik.com/content/uploads/images/standard-chartered-bank-new-20211713.jpg" 
+                    alt="FinSight Logo" 
+                    class="w-16 h-16 object-contain"
+                >
+                <h1 class="text-3xl font-bold ml-4 text-gray-800">FinSight Intelligence</h1>
+            </div>
+
+            <!-- Input Form -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <textarea 
+                    id="userInput" 
+                    class="w-full h-32 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                    placeholder="Enter your text here..."></textarea>
+                <button 
+                    onclick="sendData()"
+                    class="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Send
+                </button>
+            </div>
+
+            <!-- Response Card (hidden by default) -->
+            <div id="responseCard" class="mt-6 bg-white rounded-lg shadow-md p-6 hidden">
+                <p id="responseMessage" class="text-gray-800"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function sendData() {
+            fetch('/process', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    text: document.getElementById('userInput').value
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.
