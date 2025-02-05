@@ -27,7 +27,7 @@
                     class="w-full h-32 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                     placeholder="Enter your text here..."></textarea>
                 <button 
-                    onclick="sendData()"
+                    id="sendButton"
                     class="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     Send
                 </button>
@@ -41,16 +41,31 @@
     </div>
 
     <script>
-        function sendData() {
+        document.getElementById('sendButton').addEventListener('click', function() {
+            const userInput = document.getElementById('userInput').value;
+            
             fetch('/process', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    text: document.getElementById('userInput').value
+                    text: userInput
                 })
             })
             .then(response => response.json())
             .then(data => {
-                document.
+                const responseMessage = document.getElementById('responseMessage');
+                const responseCard = document.getElementById('responseCard');
+                
+                responseMessage.textContent = data.message;
+                responseCard.classList.remove('hidden');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while processing your request.');
+            });
+        });
+    </script>
+</body>
+</html>
