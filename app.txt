@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
 
 @app.route('/', methods=['GET'])
 def home():
@@ -8,7 +8,13 @@ def home():
 
 @app.route('/process', methods=['POST'])
 def process():
-    return jsonify({"message": "Coming soon! watch this space..."})
+    try:
+        # Get the input text from the request
+        data = request.get_json()
+        # Return the response message
+        return jsonify({"message": "Coming soon! watch this space..."})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
