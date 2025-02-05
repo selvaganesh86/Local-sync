@@ -1,71 +1,160 @@
-<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FinSight Intelligence</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body { 
+            font-family: 'Inter', Arial, sans-serif; 
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: #333;
+        }
+        .header {
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 1200px;
+            width: 100%;
+        }
+        .header-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .header img {
+            height: 50px;
+            margin-right: 20px;
+            border-radius: 8px;
+        }
+        .header h1 {
+            color: #2c3e50;
+            font-weight: 600;
+            background: linear-gradient(to right, #3498db, #2980b9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+        .container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .content-box {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+            transition: transform 0.3s ease;
+        }
+        .content-box:hover {
+            transform: translateY(-5px);
+        }
+        textarea {
+            width: 100%;
+            height: 250px;
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            resize: vertical;
+            font-family: 'Inter', Arial, sans-serif;
+            transition: border-color 0.3s ease;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        .send-btn {
+            width: 120px;
+            padding: 8px 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .send-btn:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+        .result-card {
+            display: none;
+            background-color: #f1f5f9;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+        .result-card.active {
+            display: block;
+        }
+        .result-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .result-card p {
+            color: #34495e;
+            line-height: 1.6;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <div class="container mx-auto px-4 py-8">
-        <div class="max-w-2xl mx-auto">
-            <!-- Logo and Title -->
-            <div class="flex items-center justify-center mb-8">
-                <img 
-                    src="https://logowik.com/content/uploads/images/standard-chartered-bank-new-20211713.jpg" 
-                    alt="FinSight Logo" 
-                    class="w-16 h-16 object-contain"
-                >
-                <h1 class="text-3xl font-bold ml-4 text-gray-800">FinSight Intelligence</h1>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="header-logo">
+                <img src="https://logowik.com/content/uploads/images/standard-chartered-bank-new-20211713.jpg" alt="FinSight Intelligence Logo">
             </div>
-
-            <!-- Input Form -->
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <textarea 
-                    id="userInput" 
-                    class="w-full h-32 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-                    placeholder="Enter your text here..."></textarea>
-                <button 
-                    id="sendButton"
-                    class="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    Send
-                </button>
-            </div>
-
-            <!-- Response Card (hidden by default) -->
-            <div id="responseCard" class="mt-6 bg-white rounded-lg shadow-md p-6 hidden">
-                <p id="responseMessage" class="text-gray-800"></p>
-            </div>
+            <h1>FinSight Intelligence</h1>
         </div>
     </div>
+    
+    <div class="container">
+        <div class="content-box">
+            <form method="POST">
+                <textarea name="user_input" placeholder="Enter your text here" required></textarea>
+                <div style="display: flex; justify-content: center;">
+                    <button type="submit" class="send-btn">Send</button>
+                </div>
 
-    <script>
-        document.getElementById('sendButton').addEventListener('click', function() {
-            const userInput = document.getElementById('userInput').value;
-            
-            fetch('/process', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    text: userInput
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                const responseMessage = document.getElementById('responseMessage');
-                const responseCard = document.getElementById('responseCard');
-                
-                responseMessage.textContent = data.message;
-                responseCard.classList.remove('hidden');
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while processing your request.');
-            });
-        });
-    </script>
+                <div class="result-card {% if result %}active{% endif %}">
+                    <h3>Analysis Results</h3>
+                    {% if result %}
+                    <p><strong>Summary:</strong> {{ result.summary }}</p>
+                    <p><strong>Details:</strong> {{ result.details }}</p>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
