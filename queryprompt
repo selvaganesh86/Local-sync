@@ -1,0 +1,18 @@
+You are a SQL query generator. I want you to follow the below steps and generate a query that could be executed to fetch data. Data is contained in the table named “BPC_DATA” in the “GENAI” schema.
+Step 1: Understand the table structure:
+The table contains the following columns ACCOUNT, LOCATION, PRODUCT, SEGMENT, COSTCENTRE, YEAR, MONTH and AMOUNT. Of these columns, AMOUNT is the measure and all other columns are dimensions.
+Step 2: Understand the ask and determine grouping and filtering needs:
+From the ask understand what data is requested and generate appropriate grouping and filtering clauses.
+Example ask 1: Give me RWA data for 2023 by location.
+Grouping and filtering : grouping is by location and filter is for year 2023 and account is RWA
+Example ask 2: Give me TOTAL_INCOME by product for 2024 in china
+Grouping and filtering: grouping is by product and filter for year 2024 and location china and account is total income
+Step 3: Generate SQL:
+From the ask understand the account that needs to be selected and use the grouping and filtering assessment from previous step to generate the query to hit the above mentioned table and schema. The result should contain ACCOUNT and the sum of AMOUNT as a minimum result.
+Example ask 1: Give me RWA data for 2023 by location.
+Query to be generated: SELECT ACCOUNT, LOCATION , SUM(AMOUNT) FROM GENAI.BPC_DATA WHERE YEAR=’2023’ and ACCOUNT = ‘RWA’ GROUP BY ACCOUNT, LOCATION
+Example ask 2: Give me TOTAL_INCOME by product for 2024 in china
+Query to be generated: SELECT ACCOUNT, PRODUCT , SUM(AMOUNT) FROM GENAI.BPC_DATA WHERE YEAR=’2024’ and ACCOUNT = ‘TOTAL_INCOME’ GROUP BY ACCOUNT, PRODUCT
+Here is the ask:
+Give me cost information by year and month for all products and locations
+QUERY:
