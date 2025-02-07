@@ -1,0 +1,32 @@
+def append_text_to_file(input_text, filename):
+    """
+    Appends input text to the content of a file and returns the combined result.
+    
+    Parameters:
+    input_text (str): The text to append
+    filename (str): Name of the file to read from
+    
+    Returns:
+    str: Combined text from file and input
+    
+    Raises:
+    FileNotFoundError: If the specified file doesn't exist
+    """
+    try:
+        # Read existing content from file
+        with open(filename, 'r', encoding='utf-8') as file:
+            existing_text = file.read()
+            
+        # Combine existing text with new input
+        combined_text = existing_text + input_text
+        
+        # Write the combined text back to the file
+        with open(filename, 'w', encoding='utf-8') as file:
+            file.write(combined_text)
+            
+        return combined_text
+        
+    except FileNotFoundError:
+        raise FileNotFoundError(f"The file '{filename}' was not found in the current directory")
+    except Exception as e:
+        raise Exception(f"An error occurred: {str(e)}")
