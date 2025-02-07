@@ -1,44 +1,27 @@
 import json
 
-def combine_json_results(func1_result, func2_result, func3_result):
-    # Combine the JSON results into a single dictionary
-    combined_result = {
-        'summary': '',
-        'details': {}
+def combine_function_results(summary_func, sample_func, prompt_func):
+    result = {
+        'summary': summary_func(),
+        'sample': sample_func(),
+        'prompt': prompt_func()
     }
-    
-    # Merge summaries and details from each function
-    combined_result['summary'] += func1_result.get('summary', '') + ' '
-    combined_result['summary'] += func2_result.get('summary', '') + ' '
-    combined_result['summary'] += func3_result.get('summary', '')
-    
-    # Remove extra whitespace
-    combined_result['summary'] = combined_result['summary'].strip()
-    
-    # Merge other details from each function
-    combined_result['details'].update(func1_result.get('details', {}))
-    combined_result['details'].update(func2_result.get('details', {}))
-    combined_result['details'].update(func3_result.get('details', {}))
-    
-    return combined_result
+    return result
 
 # Example usage
-def function1():
-    return {'summary': 'Result from first function', 'details': {'key1': 'value1'}}
+def get_summary():
+    return "This is the summary"
 
-def function2():
-    return {'summary': 'Result from second function', 'details': {'key2': 'value2'}}
+def get_sample():
+    return "This is a sample"
 
-def function3():
-    return {'summary': 'Result from third function', 'details': {'key3': 'value3'}}
+def get_prompt():
+    return "This is the prompt"
 
 # Combine results
-final_result = combine_json_results(
-    function1(), 
-    function2(), 
-    function3()
-)
+result = combine_function_results(get_summary, get_sample, get_prompt)
 
-# Print the combined result
-print(final_result['summary'])
-print(final_result['details'])
+# Access individual components
+print(result['summary'])  # Prints summary
+print(result['sample'])   # Prints sample
+print(result['prompt'])   # Prints prompt
