@@ -1,26 +1,22 @@
-# app.py
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
+import time
 
 app = Flask(__name__)
 
-def process_input(user_text):
-    """
-    Process the user's input text.
-    Replace this with your specific processing logic.
-    """
-    lines = user_text.split('\n')
-    return {
-        'summary': f"Processed {len(lines)} lines of text",
-        'details': f"Input contains {sum(len(line) for line in lines)} total characters"
-    }
+def get_bot_response(user_message):
+    # Simulate processing time
+    time.sleep(2)
+    return f"This is a sample response to: '{user_message}'. In a real chatbot, this would be replaced with actual processing logic."
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def home():
-    result = None
-    if request.method == 'POST':
-        user_input = request.form.get('user_input', '')
-        result = process_input(user_input)
-    return render_template('index.html', result=result)
+    return render_template('index.html')
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    user_message = request.json.get('message', '')
+    response = get_bot_response(user_message)
+    return jsonify({'response': response})
 
 if __name__ == '__main__':
     app.run(debug=True)
